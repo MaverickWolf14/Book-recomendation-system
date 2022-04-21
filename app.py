@@ -8,6 +8,13 @@ book_pivot = pickle.load(open('book_pivot.pkl', 'rb'))
 model = pickle.load(open('model.pkl', 'rb'))
 
 
+def recommend_book(book_name):
+    book_id = np.where(book_pivot.index == book_name)[0][0]
+    distance, suggestions = model.kneighbors(
+        book_pivot.iloc[book_id, :].values.reshape(1, -1), n_neighbors=6)
+    return suggestions
+
+
 
 # py -m streamlit run app.py
 st.title('Book Recomender System')
